@@ -71,6 +71,55 @@
         setTimeout(() => {
           carouselWrap.style.height = imgNodes.offsetHeight + 'px'
         }, 100)
+
+        /*滑屏
+  * 1. 拿到元素一开始的位置
+  * 2. 拿到手指一开始的位置
+  * 3. 拿到手指move的实时距离
+  * 4. 将手指移动的距离加给元素
+  * */
+
+        //手指一开始的位置
+        var startX = 0
+        //元素一开始的位置
+        var elementX = 0
+        //手指距离触屏时的距离
+        var disX = 0
+        //当前图片的下标
+        var index = 0
+
+        //手指触碰屏幕时的函数
+        carouselWrap.addEventListener('touchstart', function (ev){
+          ev = ev ||event
+          var TouchC = ev.changedTouches[0]
+          startX = TouchC.clientX
+          elementX = ulNode.offsetLeft
+        })
+        // 手指滑动屏幕
+        carouselWrap.addEventListener('touchmove', function (ev){
+          ev = ev || event
+          var TouchC = ev.changedTouches[0]
+          //手指当前的位置
+          var nowX = TouchC.clientX
+          //手指距离触屏时的距离
+          disX = nowX - startX
+          //将ul的left设置为原来的left+改变的距离
+          ulNode.style.left = elementX + disX + 'px'
+        })
+        // 手指离开屏幕
+        carouselWrap.addEventListener('touchend', function (ev){
+          v = ev || event
+          // 根据手指移动的正负判断向左还是向右
+          if(disX > 0){
+            //向右移动
+            index--
+          }else if(disX < 0){
+            //向左移动
+            index++
+          }
+          //  设置ul的位置
+          ulNode.style.left = -index * document.documentElement.clientWidth + 'px'
+        })
       }
     }
   }
