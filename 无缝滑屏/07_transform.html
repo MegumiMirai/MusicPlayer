@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #test{
+            width: 100px;
+            height: 100px;
+            background: pink;
+            transform: translateX(100px) scale(2);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="test"></div>
+
+    <script>
+        var test = document.querySelector('#test')
+        css(test, 'translateX', 100)
+        css(test, 'translateX', 200)
+        // css(test, 'scale', 2)
+
+        console.log(css(test, 'translateX'))
+        console.log(css(test, 'scale'))
+
+        //css函数对transform的值进行读、写操作
+        //css(node, type) 读
+        //css(node, type, val) 写
+        //规避覆盖的风险
+        function css(node, type,val){
+          if(typeof node === 'object' && typeof node['transform'] === 'undefined'){
+            node['transform'] = {}
+          }
+
+          if(arguments.length >= 3){
+            //设置
+            var text = ''
+            node['transform'][type] = val
+
+            for(item in node['transform']){
+              //in不仅可以查询制定对象，也会查询其原型链
+              if(node['transform'].hasOwnProperty(item)){
+                switch (item) {
+                  case 'translateX':
+                  case 'translateY':
+                    text += item + '('+ node['transform'][item] +'px)'
+                    break
+                  case 'scale':
+                    text += item + '('+ node['transform'][item] +')'
+                    break
+                  case 'rotate':
+                    text += item + '('+ node['transform'][item] +'deg)'
+                    break
+                }
+              }
+            }
+
+            //添加样式
+            node.style.transform = node.style.webkitTransform = text
+          }else if(arguments.length === 2){
+            val = node['transform'][type]
+            //如果val是undefined，根据type修改返回的val
+            if(typeof node['transform'][type] === 'undefined'){
+              switch (type) {
+                case 'translateX':
+                case 'translateY':
+                case 'rotate':
+                  val = 0
+                  break
+                case 'scale':
+                  val =  1
+                  break
+              }
+            }
+            return val
+          }
+        }
+    </script>
+</body>
+</html>
