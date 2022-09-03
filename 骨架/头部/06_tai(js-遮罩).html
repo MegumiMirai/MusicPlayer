@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/tai.css">
+</head>
+<body>
+    <div id="wrap">
+        <div class="head">
+            <div class="head-top">
+                <h1 class="logo">
+                    <a href="javascript:;">
+                        <img src="img/logo.png" />
+                    </a>
+                </h1>
+                <!--面包屑-->
+                <a href="javascript:;" class="menuBtn"></a>
+                <!--按钮组-->
+                <div class="btns">
+                    <a href="javascript:;" class="search">搜索</a>
+                    <a href="javascript:;">登录</a>
+                    <a href="javascript:;">注册</a>
+                </div>
+            </div>
+            <div class="head-bottom">
+                <!--搜索区-->
+                <form method="post">
+                    <input type="text" placeholder="请输入">
+                    <input type="submit" value="搜索">
+                </form>
+            </div>
+            <ul class="mask">
+                <li>
+                    <a href="javascript:;">首页</a>
+                </li>
+                <li>
+                    <a href="javascript:;">MV</a>
+                </li>
+                <li>
+                    <a href="javascript:;">悦单</a>
+                </li>
+                <li>
+                    <a href="javascript:;">V榜</a>
+                </li>
+                <li>
+                    <a href="javascript:;">音乐</a>
+                </li>
+                <li>
+                    <a href="javascript:;">商场</a>
+                </li>
+                <li>
+                    <a href="javascript:;">节目</a>
+                </li>
+                <li>
+                    <a href="javascript:;">饭团</a>
+                </li>
+                <li>
+                    <a href="javascript:;">咨询</a>
+                </li>
+                <li>
+                    <a href="javascript:;">我的家</a>
+                </li>
+                <li>
+                    <a href="javascript:;">APP下载</a>
+                </li>
+                <li>
+                    <a href="javascript:;">热门应用</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="./js/tools.js"></script>
+<script type="text/javascript">
+  window.onload = function (){
+
+    document.addEventListener('touchstart', function (ev){
+      ev.preventDefault()
+    })
+
+    ;(function (){
+      var styleNode = document.createElement('style')
+      var w = document.documentElement.clientWidth / 16
+      styleNode.innerHTML = "html{font-size:"+ w +"px!important}"
+      document.head.appendChild(styleNode)
+    })()
+
+    changeFocus()
+    function changeFocus(){
+      var inputText = document.querySelector("#wrap .head .head-bottom form input[type='text']")
+      inputText.addEventListener('touchstart', function (ev){
+        inputText.focus()
+        ev.stopPropagation()
+        ev.preventDefault()
+      })
+      document.addEventListener('touchstart', function (){
+        inputText.blur()
+      })
+    }
+
+    CMCFMenuBtn()
+    function CMCFMenuBtn() {
+      var menuBtn = document.querySelector('#wrap .head .head-top .menuBtn')
+      var mask = document.querySelector('#wrap .head .mask')
+      //一开始遮罩层隐藏
+      var flag = false
+      menuBtn.addEventListener('touchstart', function (ev){
+        var touchC = ev.changedTouches[0]
+        if(flag){
+          //隐藏遮罩层
+          mask.style.display = 'none'
+          //移除active类
+          tools.removeClass(menuBtn, 'active')
+        }else{
+          //显示遮罩层
+          mask.style.display = 'block'
+          //添加active类
+          tools.addClass(menuBtn, 'active')
+        }
+        flag = !flag
+        ev.stopPropagation()
+        ev.preventDefault()
+      })
+
+      //点击其他地方，隐藏mask，menuBtn移除active
+      document.addEventListener('touchstart', function (){
+        if(flag){
+          //隐藏遮罩层
+          mask.style.display = 'none'
+          //移除active类
+          tools.removeClass(menuBtn, 'active')
+          flag = !flag
+        }
+      })
+      mask.addEventListener('touchstart', function (ev){
+        ev.stopPropagation()
+      })
+    }
+
+  }
+</script>
+</html>
