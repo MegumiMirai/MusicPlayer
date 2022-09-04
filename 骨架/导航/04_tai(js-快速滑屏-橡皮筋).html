@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/tai.css">
+</head>
+<body>
+    <div id="wrap">
+        <div class="head">
+            <div class="head-top">
+                <h1 class="logo">
+                    <a href="javascript:;">
+                        <img src="img/logo.png" />
+                    </a>
+                </h1>
+                <!--面包屑-->
+                <a href="javascript:;" class="menuBtn"></a>
+                <!--按钮组-->
+                <div class="btns">
+                    <a href="javascript:;" class="search">搜索</a>
+                    <a href="javascript:;">登录</a>
+                    <a href="javascript:;">注册</a>
+                </div>
+            </div>
+            <div class="head-bottom">
+                <!--搜索区-->
+                <form method="post">
+                    <input type="text" placeholder="请输入">
+                    <input type="submit" value="搜索">
+                </form>
+            </div>
+            <ul class="mask">
+                <li>
+                    <a href="javascript:;">首页</a>
+                </li>
+                <li>
+                    <a href="javascript:;">MV</a>
+                </li>
+                <li>
+                    <a href="javascript:;">悦单</a>
+                </li>
+                <li>
+                    <a href="javascript:;">V榜</a>
+                </li>
+                <li>
+                    <a href="javascript:;">音乐</a>
+                </li>
+                <li>
+                    <a href="javascript:;">商场</a>
+                </li>
+                <li>
+                    <a href="javascript:;">节目</a>
+                </li>
+                <li>
+                    <a href="javascript:;">饭团</a>
+                </li>
+                <li>
+                    <a href="javascript:;">咨询</a>
+                </li>
+                <li>
+                    <a href="javascript:;">我的家</a>
+                </li>
+                <li>
+                    <a href="javascript:;">APP下载</a>
+                </li>
+                <li>
+                    <a href="javascript:;">热门应用</a>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="nav">
+                <ul class="list">
+                    <li class="active">
+                        <a href="javascript:;">首页</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">MV</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">悦单</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">V榜</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">音乐</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">商场</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">节目</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">饭团</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">咨询</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">我的家</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">APP下载</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">热门应用</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./js/tools.js"></script>
+<script src="./js/megumi.js"></script>
+<script type="text/javascript">
+  window.onload = function (){
+
+    document.addEventListener('touchstart', function (ev){
+      ev.preventDefault()
+    })
+
+    ;(function (){
+      let styleNode = document.createElement('style')
+      let w = document.documentElement.clientWidth / 16
+      styleNode.innerHTML = "html{font-size:"+ w +"px!important}"
+      document.head.appendChild(styleNode)
+    })()
+
+    //拖拽list
+    drag()
+    function drag(){
+      //滑屏区域
+      let wrap = document.querySelector('#wrap .content .nav')
+      //滑屏元素
+      let item = document.querySelector('#wrap .content .nav .list')
+      //滑屏可以滑动的最大值
+      let minX = wrap.clientWidth - item.clientWidth
+      //滑屏元素一开始的位置 手指一开始的位置
+      let elementX
+      let startX
+      //实现快速滑屏的变量
+      //手指触摸的时候的时间以及item的位置
+      let lastTime = 0
+      let lastPoint = 0
+      //手指移动的时间差和距离差
+      let disTime = 0
+      let disPoint = 0
+      wrap.addEventListener('touchstart', function (ev){
+        //关闭橡皮筋效果
+        item.style.transition = 'none'
+        var touchC = ev.changedTouches[0]
+        startX = touchC.clientX
+        elementX = megumi.css(item, 'translateX')
+        //修改lastTime和lastPoint
+        lastTime = new Date().getTime()
+        lastPoint = megumi.css(item, 'translateX')
+      })
+      wrap.addEventListener('touchmove', function (ev){
+        let touchC = ev.changedTouches[0]
+        let nowX = touchC.clientX
+        let disX = nowX - startX
+        let translateX = elementX + disX
+        //橡皮筋效果，随着向右拉动，item移动的距离逐渐变小
+        if(translateX > 0){
+          // (0, 0.5)
+          let scale = document.documentElement.clientWidth / ((document.documentElement.clientWidth + translateX) * 2)
+          //使用这种方式会导致itemscale可能会变为负值，要保证scale是大于0的
+          // var scale = 1 - (disX / wrap.clientWidth)
+          translateX = elementX + disX * scale
+        }else if(translateX < minX){
+          let over = minX - translateX
+          let scale = document.documentElement.clientWidth / ((document.documentElement.clientWidth + over) * 2)
+          translateX = elementX + disX * scale
+        }
+        // console.log(translateX)
+        megumi.css(item, 'translateX', translateX)
+
+        //修改nowTime和nowPoint
+        let nowTime = new Date().getTime()
+        let nowPoint = megumi.css(item, 'translateX')
+        disTime = nowTime - lastTime
+        disPoint = nowPoint - lastPoint
+
+        lastTime = nowTime
+        lastPoint = nowPoint
+      })
+      wrap.addEventListener('touchend', function (){
+        let translateX = megumi.css(item, 'translateX')
+        //计算手指滑动的速度
+        let speed = disPoint / disTime
+        let targetX = translateX + speed * 200
+        //如果item的translateX大于零的话，让它重置为0
+        // item.style.transition = '0.5s transform'
+        let bsr = ""
+        //如果速度很小，让它不要有过渡效果，将speed变成0即可
+        speed = Math.abs(speed) < 0.2 ? 0 : speed
+        let time = Math.abs(speed) * 0.2
+        time = time < 1 ? 1 : time
+        console.log(speed)
+        if(targetX > 0){
+          // item.style.transition = '0.5s transform'
+          targetX = 0
+          // megumi.css(item, 'translateX', translateX)
+          bsr = "cubic-bezier(.26, 1.51, .68, 1.54)"
+        }else if(targetX < minX){
+          // item.style.transition = '0.5s transform'
+          //如果item向左滑动的距离超过了他最远的距离，让它重置为最远的距离
+          targetX = minX
+          // megumi.css(item, 'translateX', translateX)
+          bsr = "cubic-bezier(.26, 1.51, .68, 1.54)"
+        }
+        item.style.transition = time + "s "+ bsr +" transform"
+        megumi.css(item, 'translateX', targetX)
+      })
+    }
+
+    changeFocus()
+    function changeFocus(){
+      let inputText = document.querySelector("#wrap .head .head-bottom form input[type='text']")
+      inputText.addEventListener('touchstart', function (ev){
+        inputText.focus()
+        ev.stopPropagation()
+        ev.preventDefault()
+      })
+      document.addEventListener('touchstart', function (){
+        inputText.blur()
+      })
+    }
+
+    CMCFMenuBtn()
+    function CMCFMenuBtn() {
+      let menuBtn = document.querySelector('#wrap .head .head-top .menuBtn')
+      let mask = document.querySelector('#wrap .head .mask')
+      //一开始遮罩层隐藏
+      let flag = false
+      menuBtn.addEventListener('touchstart', function (ev){
+        if(flag){
+          //隐藏遮罩层
+          mask.style.display = 'none'
+          //移除active类
+          tools.removeClass(menuBtn, 'active')
+        }else{
+          //显示遮罩层
+          mask.style.display = 'block'
+          //添加active类
+          tools.addClass(menuBtn, 'active')
+        }
+        flag = !flag
+        ev.stopPropagation()
+        ev.preventDefault()
+      })
+
+      //点击其他地方，隐藏mask，menuBtn移除active
+      document.addEventListener('touchstart', function (){
+        if(flag){
+          //隐藏遮罩层
+          mask.style.display = 'none'
+          //移除active类
+          tools.removeClass(menuBtn, 'active')
+          flag = !flag
+        }
+      })
+      mask.addEventListener('touchstart', function (ev){
+        ev.stopPropagation()
+      })
+    }
+
+  }
+</script>
+</html>
