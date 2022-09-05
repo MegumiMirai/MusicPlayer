@@ -162,6 +162,7 @@
         lastPoint = touchC.clientX
         // lastPoint = megumi.css(item, 'translateX')
       })
+
       wrap.addEventListener('touchmove', function (ev){
         let touchC = ev.changedTouches[0]
         let nowX = touchC.clientX
@@ -171,19 +172,6 @@
         //在move的过程中，每一次手指touchmove真正的有效距离在慢慢变小，元素的滑动距离还是在变大
         //disX：整个move过程的实际距离
         //disPoint：整个手指touchmove的真正有效距离
-        if(translateX > 0){
-          // (0, 0.5)
-          let scale = document.documentElement.clientWidth / ((document.documentElement.clientWidth + translateX) * 2)
-          //使用这种方式会导致itemscale可能会变为负值，要保证scale是大于0的
-          // var scale = 1 - (disX / wrap.clientWidth)
-          translateX = elementX + disX * scale
-        }else if(translateX < minX){
-          let over = minX - translateX
-          let scale = document.documentElement.clientWidth / ((document.documentElement.clientWidth + over) * 2)
-          translateX = elementX + disX * scale
-        }
-        // console.log(translateX)
-        megumi.css(item, 'translateX', translateX)
 
         //修改nowTime和nowPoint
         let nowTime = new Date().getTime()
@@ -194,7 +182,25 @@
 
         lastTime = nowTime
         lastPoint = nowPoint
+
+        if(translateX > 0){
+          // (0, 0.5)
+          let scale = document.documentElement.clientWidth / ((document.documentElement.clientWidth + translateX) * 2)
+          //使用这种方式会导致itemscale可能会变为负值，要保证scale是大于0的
+          // var scale = 1 - (disX / wrap.clientWidth)
+          translateX = megumi.css(item, 'translateX') + disPoint * scale
+          //不能用elementX，要获得item的实时距离
+          // translateX = elementX + disX * scale
+        }else if(translateX < minX){
+          let over = minX - translateX
+          let scale = document.documentElement.clientWidth / ((document.documentElement.clientWidth + over) * 2)
+          translateX = megumi.css(item, 'translateX') + disPoint * scale
+        }
+        // console.log(translateX)
+        megumi.css(item, 'translateX', translateX)
+
       })
+
       wrap.addEventListener('touchend', function (){
         let translateX = megumi.css(item, 'translateX')
         //计算手指滑动的速度

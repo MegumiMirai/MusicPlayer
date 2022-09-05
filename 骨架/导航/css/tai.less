@@ -27,6 +27,8 @@ img{
 //1rem值为多少位图像素
 @rem:1080/16rem;
 @import "mixin/1-px";
+@import "component/carousel";
+@import "component/nav";
 #wrap{
   position: relative;
   height: 100%;
@@ -129,6 +131,7 @@ img{
       padding: (10/@rem) 0;
       background: rgba(0, 0, 0, .8);
       display: none;
+      z-index: 1;
       & > li{
         float: left;
         width: 22.5%;
@@ -149,35 +152,5 @@ img{
     left: 0;
     bottom: 0;
     right: 0;
-    .nav{
-      .1-px(bottom);
-      box-sizing: border-box;
-      height: (177/@rem);
-      padding: (31/@rem) 0 (14/@rem) 0;
-      background-color: #eee;
-      .list{
-        font-size: 0;
-        white-space: nowrap;
-        //让ul的宽度可以被li撑开
-        float: left;
-        & > li{
-          height: (129/@rem);
-          line-height: (129/@rem);
-          padding: 0 (38/@rem);
-          font-size: 1rem;
-          display: inline-block;
-          a{
-            color: #020202;
-          }
-
-          &.active{
-            background-color: #690;
-            a{
-              color: #fff;
-            }
-          }
-        }
-      }
-    }
   }
 }

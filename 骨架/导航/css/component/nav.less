@@ -1,0 +1,30 @@
+.megumi-nav-drag-wrapper{
+  .1-px(bottom);
+  box-sizing: border-box;
+  height: (177/@rem);
+  padding: (31/@rem) 0 (14/@rem) 0;
+  background-color: #eee;
+  .list{
+    font-size: 0;
+    white-space: nowrap;
+    //让ul的宽度可以被li撑开
+    float: left;
+    & > li{
+      height: (129/@rem);
+      line-height: (129/@rem);
+      padding: 0 (38/@rem);
+      font-size: 1rem;
+      display: inline-block;
+      a{
+        color: #020202;
+      }
+
+      &.active{
+        background-color: #690;
+        a{
+          color: #fff;
+        }
+      }
+    }
+  }
+}
