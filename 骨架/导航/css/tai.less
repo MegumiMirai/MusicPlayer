@@ -29,6 +29,7 @@ img{
 @import "mixin/1-px";
 @import "component/carousel";
 @import "component/nav";
+@import "extend/clearfix";
 #wrap{
   position: relative;
   height: 100%;
@@ -146,11 +147,109 @@ img{
     }
   }
   .content{
-    background-color: pink;
+    background-color: #eee;
     position: absolute;
     top: (270/@rem);
     left: 0;
     bottom: 0;
     right: 0;
+    .tap-wrap{
+      width: (1064/@rem);
+      background-color: #fff;
+      margin: 0 auto;
+      overflow: hidden;
+      .tap-head{
+        height: (135/@rem);
+        line-height: (135/@rem);
+        h2{
+          float: left;
+          font-size: 1rem;
+        }
+        span{
+          float: right;
+          font-size: .8rem;
+        }
+      }
+      .tap-nav{
+        position: relative;
+        height: (105/@rem);
+        line-height: (105/@rem);
+        a{
+          float: left;
+          height: (105/@rem);
+          width: (120/@rem);
+          font-size: (44/@rem);
+          text-align: center;
+          color: #6b6b6b;
+        }
+        .smallG{
+          position: absolute;
+          left: 0;
+          bottom: 10/@rem;
+          width: (120/@rem);
+          height: (9/@rem);
+          background-color: #6f900d;
+        }
+      }
+      .tap-content{
+        &:extend(.clearfix all);
+        width: 300%;
+        ul{
+          &:extend(.clearfix all);
+          float: left;
+          width: 33.3333%;
+          li{
+            float: left;
+            box-sizing: border-box;
+            width:(506/@rem);
+            margin:(10/@rem);
+            padding:(15/@rem);
+            font-size:(40/@rem);
+            background-color:#efefef;
+            color:#000;
+            overflow: hidden;
+            a{
+              color: #333;
+              img{
+                width: 100%;
+              }
+              span{
+                display: block;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+              }
+            }
+            .tap-discuss{
+              .left{
+                float: left;
+                margin-right: (15/@rem);
+                span:first-child{
+                  display: inline-block;
+                  background: url("../img/ice.png") no-repeat;
+                  width: .6rem;
+                  height: .5rem;
+                }
+              }
+              .right{
+                float: left;
+                span:first-child{
+                  display: inline-block;
+                  background: url("../img/ice.png") no-repeat;
+                  width: .6rem;
+                  height: .5rem;
+                  background-position: 0 -0.8rem;
+                }
+              }
+            }
+          }
+        }
+        .loading{
+          background: url("../img/loading.gif") no-repeat;
+          background-position: center;
+          height: 10rem;
+        }
+      }
+    }
   }
 }

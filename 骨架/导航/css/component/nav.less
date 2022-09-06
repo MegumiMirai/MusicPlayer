@@ -12,18 +12,23 @@
     & > li{
       height: (129/@rem);
       line-height: (129/@rem);
-      padding: 0 (38/@rem);
       font-size: 1rem;
       display: inline-block;
       a{
+        display: block;
+        height: 100%;
+        padding: 0 (38/@rem);
         color: #020202;
-      }
-
-      &.active{
-        background-color: #690;
-        a{
+        &.active{
+          background-color: #690;
           color: #fff;
         }
+
+      //&.active{
+      //  background-color: #690;
+      //  a{
+      //    color: #fff;
+      //  }
       }
     }
   }
