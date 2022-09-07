@@ -153,6 +153,8 @@ img{
     left: 0;
     bottom: 0;
     right: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
     .tap-wrap{
       width: (1064/@rem);
       background-color: #fff;
@@ -177,18 +179,20 @@ img{
         a{
           float: left;
           height: (105/@rem);
-          width: (120/@rem);
+          //width: (120/@rem);
           font-size: (44/@rem);
           text-align: center;
           color: #6b6b6b;
+          margin-right: (15/@rem);
         }
         .smallG{
           position: absolute;
           left: 0;
           bottom: 10/@rem;
-          width: (120/@rem);
+          //width: (120/@rem);
           height: (9/@rem);
           background-color: #6f900d;
+          transition: 1s transform, 1s width;
         }
       }
       .tap-content{
@@ -248,6 +252,7 @@ img{
           background: url("../img/loading.gif") no-repeat;
           background-position: center;
           height: 10rem;
+          opacity: 0;
         }
       }
     }

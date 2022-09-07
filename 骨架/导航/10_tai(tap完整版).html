@@ -123,7 +123,7 @@
                 </div>
                 <div class="tap-nav">
                     <a href="javascript:;">全部</a>
-                    <a href="javascript:;">内地</a>
+                    <a href="javascript:;">内地内地内地内地</a>
                     <a href="javascript:;">港台</a>
                     <a href="javascript:;">欧美</a>
                     <a href="javascript:;">韩国</a>
@@ -375,11 +375,19 @@
       let wrap = document.querySelector('#wrap .content .tap-wrap')
       let w = wrap.offsetWidth
       let contentNodes = document.querySelectorAll('#wrap .content .tap-wrap .tap-content')
+
       for(let i = 0; i < contentNodes.length; i++){
         move(contentNodes[i])
       }
       function move(content){
+        //当前小绿的下标
+        let smallGIndex = 0
+        let smallG = content.parentNode.querySelector('.tap-nav .smallG')
+        let aNodes = content.parentNode.querySelectorAll('.tap-nav a')
+        let loadings = content.querySelectorAll('.loading')
         megumi.css(content, 'translateX', -w)
+
+        smallG.style.width = aNodes[0].offsetWidth + 'px'
 
         //点击时手指的位置
         let startPoint = {x: 0, y: 0}
@@ -387,7 +395,10 @@
         let elementPoint = {x: 0, y: 0}
         let isX = true
         let isFirst = true
+        //控制1/2跳转
+        let isJump = false
         content.addEventListener('touchstart', function (ev){
+
           let touchC = ev.changedTouches[0]
           startPoint.x = touchC.clientX
           startPoint.y = touchC.clientY
@@ -397,8 +408,15 @@
           isX = true
           isFirst = true
           content.style.transition = 'none'
+          isJump = false
         })
+
         content.addEventListener('touchmove', function (ev){
+
+          if(isJump){
+            return
+          }
+
           if(!isX){
             return
           }
@@ -423,18 +441,8 @@
           megumi.css(content, 'translateX', elementPoint.x + dis.x)
 
           jump(dis.x)
-
-          function jump(disX){
-            if(Math.abs(disX) > w / 2){
-              content.style.transition = '1s transform'
-              if(disX > 0){
-                megumi.css(content, 'translateX', 0)
-              }else{
-                megumi.css(content, 'translateX', -2 * w)
-              }
-            }
-          }
         })
+
         content.addEventListener('touchend', function (ev){
           let touchC = ev.changedTouches[0]
           let nowPoint = {x: 0, y: 0}
@@ -447,6 +455,53 @@
             megumi.css(content, 'translateX', -w)
           }
         })
+
+        //1/2跳转
+        function jump(disX){
+          if(isJump){
+            return
+          }
+          if(Math.abs(disX) > w / 2){
+            isJump = true
+            content.style.transition = '1s transform'
+            var targetX = disX > 0 ? 0 : -2 * w
+            megumi.css(content, 'translateX', targetX)
+
+            content.addEventListener('transitionend', endFn)
+            content.addEventListener('webkitTransitionEnd', endFn)
+
+
+            function endFn(){
+              content.removeEventListener('transitionend', endFn)
+              content.removeEventListener('webkitTransitionEnd', endFn)
+
+              //将loading的opacity变为1
+              for(let i = 0; i < loadings.length; i++){
+                loadings[i].style.opacity = 1
+              }
+
+              disX > 0 ? smallGIndex-- : smallGIndex++
+              if(smallGIndex < 0){
+                smallGIndex = aNodes.length - 1
+              }else if(smallGIndex > aNodes.length - 1){
+                smallGIndex = 0
+              }
+              megumi.css(smallG, 'translateX', aNodes[smallGIndex].offsetLeft)
+              smallG.style.width = aNodes[smallGIndex].offsetWidth + 'px'
+
+              //发送请求，渲染页面
+              setTimeout(function (){
+                //  将loadings的opacity设置为0
+                for(let i = 0; i < loadings.length; i++){
+                  loadings[i].style.opacity = 0
+                }
+                //  将content的translateX设置为-w
+                content.style.transition = 'none'
+                megumi.css(content, 'translateX', -w)
+              }, 1000)
+            }
+          }
+        }
       }
     }
 

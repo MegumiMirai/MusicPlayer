@@ -272,6 +272,8 @@ img {
   left: 0;
   bottom: 0;
   right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 #wrap .content .tap-wrap {
   width: 15.76296296rem;
@@ -299,18 +301,18 @@ img {
 #wrap .content .tap-wrap .tap-nav a {
   float: left;
   height: 1.55555556rem;
-  width: 1.77777778rem;
   font-size: 0.65185185rem;
   text-align: center;
   color: #6b6b6b;
+  margin-right: 0.22222222rem;
 }
 #wrap .content .tap-wrap .tap-nav .smallG {
   position: absolute;
   left: 0;
   bottom: 0.14814815rem;
-  width: 1.77777778rem;
   height: 0.13333333rem;
   background-color: #6f900d;
+  transition: 1s transform, 1s width;
 }
 #wrap .content .tap-wrap .tap-content {
   width: 300%;
@@ -366,4 +368,5 @@ img {
   background: url("../img/loading.gif") no-repeat;
   background-position: center;
   height: 10rem;
+  opacity: 0;
 }
