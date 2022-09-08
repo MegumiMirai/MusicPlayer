@@ -16,6 +16,7 @@
           switch (item) {
             case 'translateX':
             case 'translateY':
+            case 'translateZ':
               text += item + '('+ node['transform'][item] +'px)'
               break
             case 'scale':
@@ -67,6 +68,7 @@
       var ulNode = document.createElement('ul')
       var styleNode = document.createElement('style')
       ulNode.classList.add('list')
+      megumi.css(ulNode, 'translateZ', 0)
       //给ul添加li
       for(var i = 0; i < arr.length; i++){
         ulNode.innerHTML += `<li><a href="javascript:;"><img src="${arr[i]}" /></a></li>`
